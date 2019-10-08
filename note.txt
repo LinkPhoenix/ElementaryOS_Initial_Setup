@@ -1,0 +1,10 @@
+for install themes
+
+good
+https://www.visionofgeek.com/how-to-install-mac-os-x-theme-on-elementary-os-5-0-juno/
+
+github
+
+https://github.com/surajmandalcell/elementary-x
+
+

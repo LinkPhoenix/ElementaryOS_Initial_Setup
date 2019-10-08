@@ -49,3 +49,7 @@ sudo apt install dconf-editor
 echo "Install qBittorrent"
 
 sudo apt install qbittorrent
+
+echo "Install NeoFetch"
+
+sudo apt install neofetch
