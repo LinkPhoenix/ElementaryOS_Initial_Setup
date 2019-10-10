@@ -11,6 +11,8 @@ echo "gem 'rubocop', '~> 0.57.2'" >> Gemfile
 echo "gem 'rubygems'" >> Gemfile
 echo "gem 'nokogiri'" >> Gemfile
 
+echo "Install Gem (create the Gemfile.lock)"
+
 echo "Initial Bundle"
 
 bundle install
