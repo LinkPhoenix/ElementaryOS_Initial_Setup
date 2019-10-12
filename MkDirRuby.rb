@@ -1,5 +1,11 @@
 =begin
-  LEGEND
+ ##############################################################
+ # Author      : LinkPhoenix                                  #
+ # Date        : 12 October 2019                              #
+ # Note        : code during training The Hacking Project 2019#
+ ##############################################################
+ 
+ LEGEND
   \n = NEW LINE
   \t = TABLULATION
   STDIN = Get the input from the console
