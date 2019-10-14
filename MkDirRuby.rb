@@ -62,7 +62,7 @@ def create_gemfile
     i << "gem 'pry'\n"
     i << "gem 'rubocop', '~> 0.57.2'\n"
     i << "gem 'nokogiri'\n"
-    i << "gem 'dotenv\n"
+    i << "gem 'dotenv'\n"
   }
 end
 
