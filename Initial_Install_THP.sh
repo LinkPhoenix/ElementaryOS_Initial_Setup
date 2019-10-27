@@ -126,3 +126,21 @@ pg_installation() {
 
 pg_installation
 
+check() {
+    ruby_version=$(ruby -v)
+    rails_version=$(rails -v)
+    echo ${ruby_version}
+    if [ $ruby_version = "ruby 2.5.1p57 (2018-03-29 revision 63029) [x86_64-linux]" ]
+        echo "${GREEN} you have the right version of Ruby ${RESET}"
+    else
+        echo "${RED} You have not the right version of Ruby ${RESET}"
+    fi
+    echo ${rails_version}
+    if [ $rails_version = "Rails 5.2.3" ]
+        echo "${GREEN} you have the right version of Rails ${RESET}"
+    else
+        echo "${RED} You have not the right version of Rails ${RESET}"
+    fi
+}
+
+check
