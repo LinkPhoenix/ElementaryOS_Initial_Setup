@@ -117,6 +117,7 @@ killall wingpanel
 
 echo "Install Sotify AdBlock"
 
+#https://github.com/abba23/spotify-adblock-linux
 sudo apt install libcurl4-gnutls-dev
 git clone https://github.com/abba23/spotify-adblock-linux.git
 cd spotify-adblock-linux
