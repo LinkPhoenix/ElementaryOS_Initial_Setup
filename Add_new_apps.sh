@@ -99,3 +99,41 @@ echo "Change GRUB_GFXMODE to 1280x1024 or 1024x768"
 
 sudo sed -i 's%#GRUB_GFXMODE="640x480"%GRUB_GFXMODE=1280x1024,1024x768x32%g' /etc/default/grub
 sudo update-grub
+
+echo "Add plank icone in the launcher"
+
+#https://unix.stackexchange.com/questions/382946/getting-permission-denied-when-trying-to-append-text-onto-a-file-using-sudo
+sudo touch /usr/share/applications/plank-preferences.desktop
+echo '[Desktop Entry]' | sudo tee -a /usr/share/applications/plank-preferences.desktop
+echo 'Name=Plank preferences' | sudo tee -a /usr/share/applications/plank-preferences.desktop
+echo 'Comment=Dock plank preferences' | sudo tee -a /usr/share/applications/plank-preferences.desktop
+echo 'Exec=plank --preferences' | sudo tee -a /usr/share/applications/plank-preferences.desktop
+echo 'Icon=plank' | sudo tee -a /usr/share/applications/plank-preferences.desktop
+echo 'Terminal=false' | sudo tee -a /usr/share/applications/plank-preferences.desktop
+echo 'Type=Application' | sudo tee -a /usr/share/applications/plank-preferences.desktop
+echo 'StartupNotify=false' | sudo tee -a /usr/share/applications/plank-preferences.desktop
+echo 'Categories=GNOME;GTK;System;' | sudo tee -a /usr/share/applications/plank-preferences.desktop
+killall wingpanel
+
+echo "Install Sotify AdBlock"
+
+sudo apt install libcurl4-gnutls-dev
+git clone https://github.com/abba23/spotify-adblock-linux.git
+cd spotify-adblock-linux
+make
+
+echo "Add Spotify AdBlock in the launcher"
+
+sudo touch /usr/share/applications/spotify-adblock.desktop
+echo '[Desktop Entry]' | sudo tee -a /usr/share/applications/spotify-adblock.desktop
+echo 'Type=Application' | sudo tee -a /usr/share/applications/spotify-adblock.desktop
+echo 'Name=Spotify (adblock)' | sudo tee -a /usr/share/applications/spotify-adblock.desktop
+echo 'GenericName=Music Player' | sudo tee -a /usr/share/applications/spotify-adblock.desktop
+echo 'Icon=spotify-client' | sudo tee -a /usr/share/applications/spotify-adblock.desktop
+echo 'TryExec=spotify' | sudo tee -a /usr/share/applications/spotify-adblock.desktop
+echo 'Exec=env LD_PRELOAD=/usr/local/lib/spotify-adblock.so spotify %U' | sudo tee -a /usr/share/applications/spotify-adblock.desktop
+echo 'Terminal=false' | sudo tee -a /usr/share/applications/spotify-adblock.desktop
+echo 'MimeType=x-scheme-handler/spotify;' | sudo tee -a /usr/share/applications/spotify-adblock.desktop
+echo 'Categories=Audio;Music;Player;AudioVideo;' | sudo tee -a /usr/share/applications/spotify-adblock.desktop
+echo 'StartupWMClass=spotify' | sudo tee -a /usr/share/applications/spotify-adblock.desktop
+killall wingpanel
