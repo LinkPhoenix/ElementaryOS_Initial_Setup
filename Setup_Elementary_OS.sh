@@ -33,6 +33,12 @@ touch $HOME/.config/plank/dock1/launchers/trash.dockitem
 sed -i 's%Launcher=%Launcher=docklet://trash%g' $HOME/.config/plank/dock1/launchers/trash.dockitem
 killall plank
 
+echo "Add download icone in the dock"
+
+touch $HOME/.config/plank/dock1/launchers/Downloads.dockitem
+sed -i "s%Launcher=%Launcher=//$HOME/Downloads%g" $HOME/.config/plank/dock1/launchers/trash.dockitem
+killall plank
+
 
 echo "Install Gparted"
 
