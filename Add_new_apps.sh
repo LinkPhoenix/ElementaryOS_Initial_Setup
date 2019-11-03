@@ -88,3 +88,14 @@ sudo apt install neofetch
 echo "Install tree"
 
 sudo apt install tree
+
+echo "Install grub-customizer"
+
+sudo add-apt-repository ppa:danielrichter2007/grub-customizer
+sudo apt update
+sudo apt install grub-customizer
+
+echo "Change GRUB_GFXMODE to 1280x1024 or 1024x768"
+
+sudo sed -i 's%#GRUB_GFXMODE="640x480"%GRUB_GFXMODE=1280x1024,1024x768x32%g' /etc/default/grub
+sudo update-grub
