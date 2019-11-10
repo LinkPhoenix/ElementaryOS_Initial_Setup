@@ -225,6 +225,12 @@ header "TERMINATOR INSTALL"
 launching_command "sudo apt install terminator"
 sudo apt install terminator
 
+#BLUMAN
+header "BLUEMAN INSTALLATION"
+
+launching_command "sudo apt install blueman"
+sudo apt install blueman
+
 ##SLACK
 header "Install Slack Desktop"
 

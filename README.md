@@ -2,12 +2,22 @@
 My personal Initial Setup with Elementary OS
 
 ### Installation via curl
+#### DESKTOP
 
-    bash -c "$(curl -fsSL https://raw.githubusercontent.com/LinkPhoenix/ElementaryOS_Initial_Setup/master/install.sh)"
+    bash -c "$(curl -fsSL https://raw.githubusercontent.com/LinkPhoenix/ElementaryOS_Initial_Setup/master/install_desktop.sh)"
+
+#### PORTABLE
+
+    bash -c "$(curl -fsSL https://raw.githubusercontent.com/LinkPhoenix/ElementaryOS_Initial_Setup/master/install_portable.sh)"
 
 ### Installation via wget
+#### DESKTOP
 
-    bash -c "$(https://raw.githubusercontent.com/LinkPhoenix/ElementaryOS_Initial_Setup/master/install.sh -O -)"
+    bash -c "$(wget https://raw.githubusercontent.com/LinkPhoenix/ElementaryOS_Initial_Setup/master/install_desktop.sh -O -)"
+
+#### PORTABLE
+
+    bash -c "$(wget https://raw.githubusercontent.com/LinkPhoenix/ElementaryOS_Initial_Setup/master/install_portable.sh -O -)"
 
 ### Manual installation
 
@@ -21,4 +31,8 @@ My personal Initial Setup with Elementary OS
 
 ##### 3. Launch the script with bash
 
-    bash installsh
+    bash ./install_desktop.sh
+
+or
+
+    bash ./install_portable.sh
