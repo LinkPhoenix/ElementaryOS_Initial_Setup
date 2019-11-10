@@ -1,6 +1,8 @@
 [global_config]
-  title_font = Courier 10 Pitch Bold 18
+  borderless = True
+  enabled_plugins = InactivityWatch, LaunchpadCodeURLHandler, APTURLHandler, LaunchpadBugURLHandler
   title_hide_sizetext = True
+  window_state = fullscreen
 [keybindings]
 [layouts]
   [[default]]
@@ -13,12 +15,10 @@
 [plugins]
 [profiles]
   [[default]]
-    allow_bold = False
     audible_bell = True
-    background_darkness = 0.85
+    background_color = "#2e3436"
+    background_darkness = 0.95
     background_type = transparent
     cursor_color = "#aaaaaa"
-    font = Courier 10 Pitch 12
     login_shell = True
     show_titlebar = False
-    use_system_font = False
