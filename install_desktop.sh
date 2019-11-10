@@ -374,6 +374,12 @@ sudo apt update
 launching_command "sudo apt install elementary-tweaks"
 sudo apt install elementary-tweaks
 
+#DCONF-EDITOR
+header "INSTALL DCONF-EDITOR"
+
+launching_command "sudo apt install dconf-editor "
+sudo apt install dconf-editor 
+
 #CHANGE SHELL TO TERMINATOR
 header "change the default terminal by Terminator"
 
@@ -385,6 +391,26 @@ gsettings set org.gnome.desktop.default-applications.terminal exec-arg ''
 # echo "Default value for default terminal"
 # gsettings reset org.gnome.desktop.default-applications.terminal exec
 # gsettings reset org.gnome.desktop.default-applications.terminal exec-arg
+
+##CONFIG CALANDAR
+
+gsettings set io.elementary.desktop.wingpanel.datetime show-weeks "true"
+
+##Remove WINPANEL Transparency
+gsettings set io.elementary.desktop.wingpanel use-transparency "false"
+
+##SHOW HIDDEN FILES
+gsettings set io.elementary.files.preferences show-hiddenfiles "true"
+
+##Double Click Files
+gsettings set io.elementary.files.preferences single-click "false"
+
+##Edit Shortcut
+gsettings set org.gnome.settings-daemon.plugins.media-keys terminal "<super>t"
+gsettings set org.gnome.settings-daemon.plugins.media-keys home "<super>e"
+gsettings set org.gnome.settings-daemon.plugins.media-keys www "<super>b"
+
+
 
 ##MAC OS THEME
 header "install Mac OS Theme"
