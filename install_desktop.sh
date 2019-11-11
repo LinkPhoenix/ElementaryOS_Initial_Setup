@@ -241,6 +241,37 @@ else
     code --install-extension shan.code-settings-sync
 fi
 
+##LIBRE OFFICE
+header "INSTALL LIBRE OFFICE"
+
+launching_command "sudo add-apt-repository ppa:libreoffice/ppa"
+sudo add-apt-repository ppa:libreoffice/ppa
+launching_command "sudo apt install libreoffice-writer"
+sudo apt install libreoffice-writer
+launching_command "sudo apt install libreoffice-calc"
+sudo apt install libreoffice-calc
+
+##CALIBRE
+header "INSTALL CALIBRE"
+
+launching_command "sudo -v && wget -nv -O- https://download.calibre-ebook.com/linux-installer.sh | sudo sh /dev/stdin"
+sudo -v && wget -nv -O- https://download.calibre-ebook.com/linux-installer.sh | sudo sh /dev/stdin
+
+##Virtual Box
+header "INSTALL VIRTUAL BOX"
+
+launching_command "echo deb [arch=amd64] http://download.virtualbox.org/virtualbox/debian $(lsb_release -sc) contrib | sudo tee /etc/apt/sources.list.d/virtualbox.list"
+echo "deb [arch=amd64] http://download.virtualbox.org/virtualbox/debian $(lsb_release -sc) contrib" | sudo tee /etc/apt/sources.list.d/virtualbox.list
+launching_command "wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-key add -"
+wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-key add -
+launching_command "wget -q https://www.virtualbox.org/download/oracle_vbox.asc -O- | sudo apt-key add -"
+wget -q https://www.virtualbox.org/download/oracle_vbox.asc -O- | sudo apt-key add -
+launching_command "sudo apt update"
+sudo apt update
+launching_command "sudo apt install virtualbox-6.0"
+sudo apt install virtualbox-6.0
+
+
 ##TERMINATOR
 header "TERMINATOR INSTALL"
 
@@ -410,7 +441,15 @@ gsettings set org.gnome.settings-daemon.plugins.media-keys terminal "<super>t"
 gsettings set org.gnome.settings-daemon.plugins.media-keys home "<super>e"
 gsettings set org.gnome.settings-daemon.plugins.media-keys www "<super>b"
 
+##NIGHT LIGHT
+gsettings set org.gnome.settings-daemon.plugins.color night-light-enabled "true"
 
+##CONFIG CLEANER
+settings set org.gnome.desktop.privacy remove-old-temp-files "true"
+gsettings set org.gnome.desktop.privacy remove-old-trash-files "true"
+
+##GEOLOCALISATION
+gsettings set io.elementary.desktop.agent-geoclue2 location-enabled "true" 
 
 ##MAC OS THEME
 header "install Mac OS Theme"
