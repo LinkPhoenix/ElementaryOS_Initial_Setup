@@ -124,6 +124,19 @@ information() {
     press_any_key_to_continue
 }
 
+ask() {
+    # call with a prompt string or use a default
+    read -r -p "Are you sure? [Y/n] " response
+    case "$response" in
+    [nN])
+        echo "You chose not, the script goes on after"
+        ;;
+    *)
+        $1
+        ;;
+    esac
+}
+
 setup_color
 
 header "UPDATE & UPGRADE"
@@ -154,7 +167,6 @@ sudo apt install software-properties-common
 
 launching_command "fonts-powerline"
 sudo apt install fonts-powerline
-
 
 header "REMOVE UNLESS ELEMENTARY APPS"
 
@@ -213,7 +225,6 @@ else
     sudo apt install vim
 fi
 
-
 #Visual Code Install
 
 header "Visual Code Installation"
@@ -226,7 +237,7 @@ else
     echo "I will install it"
     press_any_key_to_continue
     launching_command "curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg"
-    curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
+    curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor >packages.microsoft.gpg
     launching_command "sudo install -o root -g root -m 644 packages.microsoft.gpg /usr/share/keyrings/"
     sudo install -o root -g root -m 644 packages.microsoft.gpg /usr/share/keyrings/
     launching_command "sudo sh -c echo deb [arch=amd64 signed-by=/usr/share/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/vscode stable main > /etc/apt/sources.list.d/vscode.list"
@@ -271,12 +282,44 @@ sudo apt update
 launching_command "sudo apt install virtualbox-6.0"
 sudo apt install virtualbox-6.0
 
-
 ##TERMINATOR
 header "TERMINATOR INSTALL"
 
 launching_command "sudo apt install terminator"
 sudo apt install terminator
+
+##Config TERMINATOR
+header "TERMINATOR CONFIG"
+
+if [ ! -d "$HOME/.config/terminator" ]; then
+    mkdir $HOME/.config/terminator
+    echo '  [global_config]' >>$HOME/config/terminator/config
+    echo '  borderless = True' >>$HOME/config/terminator/config
+    echo '  enabled_plugins = InactivityWatch, LaunchpadCodeURLHandler, APTURLHandler, LaunchpadBugURLHandler' >>$HOME/config/terminator/config
+    echo '  title_hide_sizetext = True' >>$HOME/config/terminator/config
+    echo '  window_state = fullscreen' >>$HOME/config/terminator/config
+    echo '[keybindings]' >>$HOME/config/terminator/config
+    echo '[layouts]' >>$HOME/config/terminator/config
+    echo '  [[default]]' >>$HOME/config/terminator/config
+    echo '    [[[child1]]]' >>$HOME/config/terminator/config
+    echo '      parent = window0' >>$HOME/config/terminator/config
+    echo '      type = Terminal' >>$HOME/config/terminator/config
+    echo '    [[[window0]]]' >>$HOME/config/terminator/config
+    echo '      parent = ""' >>$HOME/config/terminator/config
+    echo '      type = Window' >>$HOME/config/terminator/config
+    echo '[plugins]' >>$HOME/config/terminator/config
+    echo '[profiles]' >>$HOME/config/terminator/config
+    echo '  [[default]]' >>$HOME/config/terminator/config
+    echo '    audible_bell = True' >>$HOME/config/terminator/config
+    echo '    background_color = " #2e3436"' >>$HOME/config/terminator/config
+    echo '    background_darkness = 0.95' >>$HOME/config/terminator/config
+    echo '    background_type = transparent' >>$HOME/config/terminator/config
+    echo '    cursor_color = " #aaaaaa"' >>$HOME/config/terminator/config
+    echo '    font = Roboto Mono 14' >>$HOME/config/terminator/config
+    echo '    login_shell = True' >>$HOME/config/terminator/config
+    echo '    show_titlebar = False' >>$HOME/config/terminator/config
+    echo '    use_system_font = False' >>$HOME/config/terminator/config
+fi
 
 #BLUMAN
 header "BLUEMAN INSTALLATION"
@@ -296,7 +339,7 @@ sudo apt install ./slack-desktop-*.deb
 header "Install Spotify"
 
 launching_command "curl -sS https://download.spotify.com/debian/pubkey.gpg | sudo apt-key add - "
-curl -sS https://download.spotify.com/debian/pubkey.gpg | sudo apt-key add - 
+curl -sS https://download.spotify.com/debian/pubkey.gpg | sudo apt-key add -
 launching_command "echo deb http://repository.spotify.com stable non-free | sudo tee /etc/apt/sources.list.d/spotify.list"
 echo "deb http://repository.spotify.com stable non-free" | sudo tee /etc/apt/sources.list.d/spotify.list
 launching_command "sudo apt update"
@@ -399,7 +442,7 @@ sudo apt install kodi
 header "Install Elementary-Tweaks"
 
 launching_command "sudo add-apt-repository -y  ppa:philip.scott/elementary-tweaks"
-sudo add-apt-repository -y  ppa:philip.scott/elementary-tweaks
+sudo add-apt-repository -y ppa:philip.scott/elementary-tweaks
 launching_command "sudo apt update"
 sudo apt update
 launching_command "sudo apt install elementary-tweaks"
@@ -409,7 +452,7 @@ sudo apt install elementary-tweaks
 header "INSTALL DCONF-EDITOR"
 
 launching_command "sudo apt install dconf-editor "
-sudo apt install dconf-editor 
+sudo apt install dconf-editor
 
 #CHANGE SHELL TO TERMINATOR
 header "change the default terminal by Terminator"
@@ -449,7 +492,37 @@ settings set org.gnome.desktop.privacy remove-old-temp-files "true"
 gsettings set org.gnome.desktop.privacy remove-old-trash-files "true"
 
 ##GEOLOCALISATION
-gsettings set io.elementary.desktop.agent-geoclue2 location-enabled "true" 
+gsettings set io.elementary.desktop.agent-geoclue2 location-enabled "true"
+
+##GESTURE
+
+gesture_install() {
+    header "libinput-gestures"
+
+    information "add actual user in input's group"
+
+    sudo gpasswd -a $USER input
+
+    information "You need restart your PC or logon and login"
+    information "Dependancies installation"
+
+    sudo apt install xdotool wmctrl
+    sudo apt install libinput-tools
+
+    information "Download the Github"
+
+    git clone https://github.com/bulletmark/libinput-gestures.git
+    cd libinput-gestures
+    sudo make install
+    sleep 5
+    cd
+
+    sudo rm -rf libinput-gestures
+
+    libinput-gestures-setup autostart
+}
+
+ask gesture_install
 
 ##MAC OS THEME
 header "install Mac OS Theme"
@@ -474,11 +547,10 @@ else
     launching_command "touch ~/.config/gtk-3.0/settings.ini"
     touch ~/.config/gtk-3.0/settings.ini
     launching_command "echo [Settings] >> ~/.config/gtk-3.0/settings.ini"
-    echo [Settings] >> ~/.config/gtk-3.0/settings.ini
+    echo [Settings] >>~/.config/gtk-3.0/settings.ini
     launching_command "echo gtk-application-prefer-dark-theme=1 >> ~/.config/gtk-3.0/settings.ini"
-    echo gtk-application-prefer-dark-theme=1 >> ~/.config/gtk-3.0/settings.ini
-fi 
-
+    echo gtk-application-prefer-dark-theme=1 >>~/.config/gtk-3.0/settings.ini
+fi
 
 ##ICON MAC
 header "Install icon theme Mac os La Sierra"
@@ -490,14 +562,16 @@ git clone https://github.com/btd1337/La-Sierra-Icon-Theme ~/.icons/La-Sierra
 launching_command "gsettings set org.gnome.desktop.interface icon-theme La-Sierra"
 gsettings set org.gnome.desktop.interface icon-theme "La-Sierra"
 
-##TRASH ICON
+##TRASH ICON TO DOCK
 header "Add trash icone in the dock"
 
 #https://elementaryos.stackexchange.com/questions/18404/where-is-the-trash-icon/21088#21088
 launching_command "touch \$HOME/.config/plank/dock1/launchers/trash.dockitem"
 touch $HOME/.config/plank/dock1/launchers/trash.dockitem
 launching_command "sed -i 's%Launcher=%Launcher=docklet://trash%g' \$HOME/.config/plank/dock1/launchers/trash.dockitem"
+sleep 5
 sed -i 's%Launcher=%Launcher=docklet://trash%g' $HOME/.config/plank/dock1/launchers/trash.dockitem
+sleep 5
 launching_command "killall plank"
 killall plank
 
@@ -506,17 +580,10 @@ header "Add download icone to plank"
 
 launching_command "touch \$HOME/.config/plank/dock1/launchers/Downloads.dockitem"
 touch $HOME/.config/plank/dock1/launchers/Downloads.dockitem
-launching_command "sed -i s%Launcher=%Launcher=//\$HOME/Downloads%g \$HOME/.config/plank/dock1/launchers/trash.dockitem"
-sed -i "s%Launcher=%Launcher=//$HOME/Downloads%g" $HOME/.config/plank/dock1/launchers/trash.dockitem
-launching_command "killall plank"
-killall plank
-
-##TRASH ICON TO DOCK
-header "Add Trash icon to plank"
-launching_command "touch \$HOME/.config/plank/dock1/launchers/trash.dockitem"
-touch $HOME/.config/plank/dock1/launchers/trash.dockitem
-launching_command "sed -i 's%Launcher=%Launcher=docklet://trash%g' \$HOME/.config/plank/dock1/launchers/trash.dockitem"
-sed -i 's%Launcher=%Launcher=docklet://trash%g' $HOME/.config/plank/dock1/launchers/trash.dockitem
+launching_command "sed -i s%Launcher=%Launcher=//\$HOME/Downloads%g \$HOME/.config/plank/dock1/launchers/Downloads.dockitem"
+sleep 5
+sed -i "s%Launcher=%Launcher=//$HOME/Downloads%g" $HOME/.config/plank/dock1/launchers/Downloads.dockitem
+sleep 5
 launching_command "killall plank"
 killall plank
 
@@ -558,41 +625,3 @@ header "CLEAN"
 
 launching_command "sudo apt autoremove"
 sudo apt autoremove
-
-# echo "Disable touchscreen at startup"
-
-# sudo -i
-# mkdir /autostart_script
-# touch /autostart_script/disable_touchscreen.sh
-# echo '#!/usr/bin/env bash' >>/autostart_script/disable_touchscreen.sh
-# echo 'xinput disable 12' >>/autostart_script/disable_touchscreen.sh
-# chmod +x /autostart_script/disable_touchscreen.sh
-
-# touch /etc/init/disable_touchscreen.conf
-# echo 'description     "Disable the Touchscreen"' >>/etc/init/disable_touchscreen.conf
-# echo 'start on startup' >>/etc/init/disable_touchscreen.conf
-# echo 'task' >>/etc/init/disable_touchscreen.conf
-# echo 'exec /autostart_script/disable_touchscreen.sh' >>/etc/init/disable_touchscreen.conf
-# exit
-
-echo "add actual user in input's group"
-
-sudo gpasswd -a $USER input
-
-echo "You need restart your PC or logon and login"
-echo ""
-echo "Dependancies installation"
-
-sudo apt-get install xdotool wmctrl
-sudo apt-get install libinput-tools
-
-echo "Download the Github"
-
-git clone https://github.com/bulletmark/libinput-gestures.git
-cd libinput-gestures
-sudo make install
-
-sudo rm -rf libinput-gestures
-
-libinput-gestures-setup autostart
-libinput-gestures-setup start
