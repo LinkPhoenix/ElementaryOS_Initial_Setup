@@ -23,6 +23,10 @@ My personal Initial Setup with Elementary OS
 
     bash ./install.sh
 
+# PAGES
+
+[Tips and tricks](https://github.com/LinkPhoenix/ElementaryOS_Initial_Setup/blob/master/Pages/Tips_and_tricks.md)
+
 # Applications
 
 ## Install
@@ -66,10 +70,12 @@ My personal Initial Setup with Elementary OS
 - Default Terminal => Terminator
 - Calandar => Show WEEK Numbers
 - FILES => Show hidden files / Double click for open
-- Shortcut => terminal "<super>t" / home "<super>e" / www "<super>b"
+- Shortcut system => terminal '< super >t' / home "< super >e" / www "< super >b"
+- Shortcut custom => code '< super >c'
 - Night Light => Enable
 - Cleaner => remove-old-temp-files "true" / remove-old-trash-files "true"
 - Geolocalisation => location-enabled "true"
+- Install wingpanel-indicator-ayatana
 
 ## Uninstall
 - epiphany-browser

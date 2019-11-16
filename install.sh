@@ -471,7 +471,7 @@ gsettings set org.gnome.desktop.default-applications.terminal exec-arg ''
 gsettings set io.elementary.desktop.wingpanel.datetime show-weeks "true"
 
 ##Remove WINPANEL Transparency
-gsettings set io.elementary.desktop.wingpanel use-transparency "false"
+# gsettings set io.elementary.desktop.wingpanel use-transparency "false"
 
 ##SHOW HIDDEN FILES
 gsettings set io.elementary.files.preferences show-hiddenfiles "true"
@@ -480,15 +480,22 @@ gsettings set io.elementary.files.preferences show-hiddenfiles "true"
 gsettings set io.elementary.files.preferences single-click "false"
 
 ##Edit Shortcut
-gsettings set org.gnome.settings-daemon.plugins.media-keys terminal "<super>t"
-gsettings set org.gnome.settings-daemon.plugins.media-keys home "<super>e"
-gsettings set org.gnome.settings-daemon.plugins.media-keys www "<super>b"
+####System
+gsettings set org.gnome.settings-daemon.plugins.media-keys terminal '<super>t'
+gsettings set org.gnome.settings-daemon.plugins.media-keys home '<super>e'
+gsettings set org.gnome.settings-daemon.plugins.media-keys www '<super>b'
+####Custum
+######Visual Code
+gsettings set org.gnome.settings-daemon.plugins.media-keys custom-keybindings "['/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/']"
+gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/ command 'code'
+gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/ name 'Visual Code'
+gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/ binding '<Super>c'
 
 ##NIGHT LIGHT
 gsettings set org.gnome.settings-daemon.plugins.color night-light-enabled "true"
 
 ##CONFIG CLEANER
-settings set org.gnome.desktop.privacy remove-old-temp-files "true"
+gsettings set org.gnome.desktop.privacy remove-old-temp-files "true"
 gsettings set org.gnome.desktop.privacy remove-old-trash-files "true"
 
 ##GEOLOCALISATION
@@ -523,6 +530,20 @@ gesture_install() {
 }
 
 ask gesture_install
+
+##wingpanel-indicator-ayatana
+header "Install Wingpanel Indicatior AYATANA"
+
+launching_command "mkdir -p ~/.config/autostart"
+mkdir -p ~/.config/autostart
+launching_command "cp /etc/xdg/autostart/indicator-application.desktop ~/.config/autostart/"
+cp /etc/xdg/autostart/indicator-application.desktop ~/.config/autostart/
+launching_command "sed -i 's/^OnlyShowIn.*/OnlyShowIn=Unity;GNOME;Pantheon;/' ~/.config/autostart/indicator-application.desktop"
+sed -i 's/^OnlyShowIn.*/OnlyShowIn=Unity;GNOME;Pantheon;/' ~/.config/autostart/indicator-application.desktop
+launching_command "wget http://ppa.launchpad.net/elementary-os/stable/ubuntu/pool/main/w/wingpanel-indicator-ayatana/wingpanel-indicator-ayatana_2.0.3+r27+pkg17~ubuntu0.4.1.1_amd64.deb"
+wget http://ppa.launchpad.net/elementary-os/stable/ubuntu/pool/main/w/wingpanel-indicator-ayatana/wingpanel-indicator-ayatana_2.0.3+r27+pkg17~ubuntu0.4.1.1_amd64.deb
+launching_command "sudo dpkg -i wingpanel-indicator-ayatana_2.0.3+r27+pkg17~ubuntu0.4.1.1_amd64.deb"
+sudo dpkg -i wingpanel-indicator-ayatana_2.0.3+r27+pkg17~ubuntu0.4.1.1_amd64.deb
 
 ##MAC OS THEME
 header "install Mac OS Theme"
