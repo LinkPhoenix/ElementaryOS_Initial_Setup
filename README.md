@@ -1,11 +1,28 @@
-# ElementaryOS_Initial_Setup
-My personal Initial Setup with Elementary OS
+## Contents
+ - [Getting Started](#getting-started)
+    - [Installing](#Installing)
+        - [Via curl](#via-curl)
+        - [Via wget](#via-wget)
+        - [Manual installation](#manual-installation)
+ - [Compatibility](#compatibility)
+ - [Help](#help)
+ - [All configurations](#all-configurations)
+    - [Install](#install)
+    - [Elementary OS Configuration](#elementary-os-configuration)
+    - [Uninstall](#uninstall)
 
-### Installation via curl
+<h1 align="center">
+    <img alt="Elementary OS Script install" src="https://user-images.githubusercontent.com/33618968/68996005-a387f600-0894-11ea-95bb-e83fdc7a9ca8.png" width="800">
+  <br>Elementary OS Inital Setup<br>
+</h1>
+
+# Getting Started
+## Installing
+### Via curl
 
     bash -c "$(curl -fsSL https://raw.githubusercontent.com/LinkPhoenix/ElementaryOS_Initial_Setup/master/install.sh)"
 
-### Installation via wget
+### Via wget
 
     bash -c "$(wget https://raw.githubusercontent.com/LinkPhoenix/ElementaryOS_Initial_Setup/master/install.sh -O -)"
 
@@ -23,11 +40,18 @@ My personal Initial Setup with Elementary OS
 
     bash ./install.sh
 
-# PAGES
+# Compatibility
+
+|     OS Name     | Version |   Code name   |
+|     :-----:     | ------- | ------------- |
+|  Elementary OS  |   5.0   |      JUNO     |
+
+
+# Help
 
 [Tips and tricks](https://github.com/LinkPhoenix/ElementaryOS_Initial_Setup/blob/master/Pages/Tips_and_tricks.md)
 
-# Applications
+# All configurations
 
 ## Install
 - Spotify
