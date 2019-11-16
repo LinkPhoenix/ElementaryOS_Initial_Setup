@@ -1,3 +1,8 @@
+<h1 align="center">
+    <img alt="Elementary OS Script install" src="https://user-images.githubusercontent.com/33618968/68996005-a387f600-0894-11ea-95bb-e83fdc7a9ca8.png" width="800">
+  <br>Elementary OS Inital Setup<br>
+</h1>
+
 ## Contents
  - [Getting Started](#getting-started)
     - [Installing](#Installing)
@@ -10,11 +15,6 @@
     - [Install](#install)
     - [Elementary OS Configuration](#elementary-os-configuration)
     - [Uninstall](#uninstall)
-
-<h1 align="center">
-    <img alt="Elementary OS Script install" src="https://user-images.githubusercontent.com/33618968/68996005-a387f600-0894-11ea-95bb-e83fdc7a9ca8.png" width="800">
-  <br>Elementary OS Inital Setup<br>
-</h1>
 
 # Getting Started
 ## Installing
