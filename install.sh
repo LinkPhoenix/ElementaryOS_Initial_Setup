@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 setup_color() {
     # Only use colors if connected to a terminal
@@ -75,14 +75,21 @@ press_any_key_to_continue() {
     printf "\n"
 }
 
-launching_command() {
-    echo "${YELLOW}#######################################################${RESET}"
-    echo "${BG_BLACK}${ITALIC}  $ $1 ${RESET}"
-    echo "${YELLOW}#######################################################${RESET}"
-    sleep 2
+ask() {
+    # call with a prompt string or use a default
+    read -r -p "${1:-Are you sure? [y/N]} " response
+    case "$response" in
+    [yY][eE][sS] | [yY])
+        $1
+        ;;
+    *)
+        continue
+        ;;
+    esac
 }
 
 header() {
+    clear
     echo ""
     echo "${YELLOW}#######################################################${RESET}"
     echo ""
@@ -91,7 +98,22 @@ header() {
     echo "${YELLOW}#######################################################${RESET}"
     echo ""
     echo ""
-    press_any_key_to_continue
+}
+
+footer() {
+    echo ""
+    echo "${GREEN}${BOLD}#######################################################${RESET}"
+    echo ""
+    echo "${GREEN}  $1 ${RESET}"
+    echo ""
+    echo "${GREEN}${BOLD}#######################################################${RESET}"
+    echo ""
+}
+
+launching_command() {
+    echo "${YELLOW}#######################################################${RESET}"
+    echo "${BG_BLACK}${ITALIC}  $ $1 ${RESET}"
+    echo "${YELLOW}#######################################################${RESET}"
 }
 
 warning_text() {
@@ -100,7 +122,6 @@ warning_text() {
     echo "${RED}${BOLD}  $1 ${RESET}"
     echo "${RED}#######################################################${RESET}"
     echo ""
-    press_any_key_to_continue
 }
 
 detect_text() {
@@ -109,7 +130,6 @@ detect_text() {
     echo "${GREEN}${BOLD}  $1 ${RESET}"
     echo "${GREEN}#######################################################${RESET}"
     echo ""
-    press_any_key_to_continue
 }
 
 information() {
@@ -124,17 +144,461 @@ information() {
     press_any_key_to_continue
 }
 
-ask() {
-    # call with a prompt string or use a default
-    read -r -p "Are you sure? [Y/n] " response
-    case "$response" in
-    [nN])
-        echo "You chose not, the script goes on after"
-        ;;
-    *)
-        $1
-        ;;
+install_oh_my_zsh() {
+    header "OH MY ZSH installation"
+
+    press_any_key_to_continue
+
+    if hash zsh 2>/dev/null; then
+        detect_text "ZSH has been detected on your system"
+        press_any_key_to_continue
+    else
+        warning_text "Zsh has not detected on your system"
+        echo "${YELLOW}I will install it with sudo${RESET}"
+        launching_command "sudo apt install zsh"
+        press_any_key_to_continue
+        sudo apt install zsh
+    fi
+
+    information "After installing OH MY ZSH you will have to leave" "the SHELL by typing EXIT to continue the script"
+
+    if hash curl 2>/dev/null; then
+        detect_text "CURL has been detected on your system"
+        echo "${YELLOW}I will install OH MY ZSH with it${RESET}"
+        launching_command "sh -c \$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+        press_any_key_to_continue
+        sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+    elif hash wget 2>/dev/null; then
+        detect_text "WGET has been detected on your system"
+        echo "${YELLOW}I will install OH MY ZSH with it${RESET}"
+        launching_command "sh -c \$(wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
+        press_any_key_to_continue
+        sh -c "$(wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
+    else
+        warning_text "CURL and WGET has not detected on your system"
+        echo "${YELLOW}I will install CURL with sudo${RESET}"
+        echo "${YELLOW}before install Oh-My-Zsh${RESET}"
+        launching_command "sudo apt install curl"
+        press_any_key_to_continue
+        sudo apt install curl
+        echo "${YELLOW}Now I will install OH MY ZSH with CURL${RESET}"
+        launching_command "sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)""
+        press_any_key_to_continue
+        sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+    fi
+    footer "OH MY ZSH INSTALLATION END"
+    press_any_key_to_continue
+}
+
+install_vim() {
+    header "VIM installation"
+
+    press_any_key_to_continue
+
+    if hash vim 2>/dev/null; then
+        detect_text "Vim is already installed"
+        press_any_key_to_continue
+    else
+        warning_text "Vim has not detected on your system"
+        echo "${YELLOW}I will install it with sudo${RESET}"
+        launching_command "sudo apt install vim"
+        press_any_key_to_continue
+        sudo apt install vim
+    fi
+
+    footer "VIM INSTALLATON END"
+
+    press_any_key_to_continue
+}
+
+Install_vscode() {
+    header "Visual Code Installation"
+
+    press_any_key_to_continue
+
+    if hash code 2>/dev/null; then
+        detect_text "Visual Code is already installed"
+        press_any_key_to_continue
+    else
+        warning_text "Visual code has not detected on your system"
+        echo "I will install it"
+        press_any_key_to_continue
+        launching_command "curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg"
+        curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor >packages.microsoft.gpg
+        launching_command "sudo install -o root -g root -m 644 packages.microsoft.gpg /usr/share/keyrings/"
+        sudo install -o root -g root -m 644 packages.microsoft.gpg /usr/share/keyrings/
+        launching_command "sudo sh -c echo deb [arch=amd64 signed-by=/usr/share/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/vscode stable main > /etc/apt/sources.list.d/vscode.list"
+        sudo sh -c 'echo "deb [arch=amd64 signed-by=/usr/share/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/vscode stable main" > /etc/apt/sources.list.d/vscode.list'
+        launching_command "sudo apt-get install apt-transport-https"
+        sudo apt-get install apt-transport-https
+        launching_command "sudo apt-get update"
+        sudo apt-get update
+        launching_command "sudo apt-get install code"
+        sudo apt-get install code
+    fi
+
+    footer "VISUAL CODE INSTALLATION END"
+
+    press_any_key_to_continue
+}
+
+
+Install_atom() {
+    header "Atom Installation"
+
+    press_any_key_to_continue
+
+    if hash atom 2>/dev/null; then
+        detect_text "Atom is already installed"
+        press_any_key_to_continue
+    else
+        warning_text "Atom has not detected on your system"
+        echo "I will install it"
+        press_any_key_to_continue
+        launching_command "wget -qO - https://packagecloud.io/AtomEditor/atom/gpgkey | sudo apt-key add -"
+        wget -qO - https://packagecloud.io/AtomEditor/atom/gpgkey | sudo apt-key add -
+        launching_command "sudo sh -c echo deb [arch=amd64] https://packagecloud.io/AtomEditor/atom/any/ any main > /etc/apt/sources.list.d/atom.list"
+        sudo sh -c 'echo "deb [arch=amd64] https://packagecloud.io/AtomEditor/atom/any/ any main" > /etc/apt/sources.list.d/atom.list'
+        launching_command "sudo apt update"
+        sudo apt update
+        launching_command "sudo apt-get install atom"
+        sudo apt install atom
+    fi
+
+    footer "ATOM INSTALLATION END"
+
+    press_any_key_to_continue
+}
+
+Install_sublime_text() {
+    header "Sublime Text Installation"
+
+    press_any_key_to_continue
+
+    if hash subl 2>/dev/null; then
+        detect_text "Sublime Text is already installed"
+        press_any_key_to_continue
+    else
+        warning_text "Sublime Text has not detected on your system"
+        echo "I will install it"
+        press_any_key_to_continue
+        launching_command "wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -"
+        wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -
+        launching_command "sudo apt install apt-transport-https"
+        sudo apt install apt-transport-https
+        launching_command "echo deb https://download.sublimetext.com/ apt/stable/ | sudo tee /etc/apt/sources.list.d/sublime-text.list"
+        echo "deb https://download.sublimetext.com/ apt/stable/" | sudo tee /etc/apt/sources.list.d/sublime-text.list
+        launching_command "sudo apt update"
+        sudo apt update
+        launching_command "sudo apt-get install sublime-text"
+        sudo apt install sublime-text
+    fi
+
+    footer "SUBLIME TEXT INSTALLATION END"
+
+    press_any_key_to_continue
+}
+
+install_git() {
+    header "INSTALL GIT"
+
+    if hash git 2>/dev/null; then
+        detect_text "GIT is already installed"
+        press_any_key_to_continue
+    else
+        warning_text "GIT has not detected on your system"
+        echo "I will install it"
+        launching_command "sudo apt update"
+        sudo apt update
+        launching_command "sudo apt install git"
+        sudo apt install git
+        press_any_key_to_continue
+    fi
+
+    footer "GIT INSTALLATION END"
+
+    press_any_key_to_continue
+}
+
+config_git() {
+    header "CONFIGURATION GIT GLOBAL"
+
+    GIT_CONFIG_FILE="$HOME/.gitconfig"
+    if [[ -f "$GIT_CONFIG_FILE" ]]; then
+        information "A configuration is already configured," "be sure to want to redo a configuration"
+        echo "${YELLOW}Here is the current configuration :${RESET}"
+        cat $HOME/.gitconfig
+        echo "${YELLOW}################################################${RESET}"
+        echo "${YELLOW}If you want to leave the script press [CTRL + C]${RESET}"
+        echo "${YELLOW}################################################${RESET}"
+        echo ""
+        press_any_key_to_continue
+    fi
+    echo "${YELLOW}Type in your first and last name or just pseudo (no accent or special characters - e.g. 'ç'): ${YELLOW}"
+    read full_name
+    echo ""
+    echo "${YELLOW}Type in your email address, the one used for your GitHub account: ${YELLOW}"
+    read email
+
+    launching_command "git config --global user.email $email"
+    git config --global user.email $email
+    echo ""
+    launching_command "git config --global user.email $full_name"
+    git config --global user.name $full_name
+
+    echo "${YELLOW}This is your new config${RESET}"
+    launching_command "cat $HOME/.gitconfig"
+    cat $HOME/.gitconfig
+
+    footer "GIT CONFIG GLOBAL END"
+
+    press_any_key_to_continue
+}
+
+checking_for_existing_ssh_keys() {
+    header "Checking for existing SSH keys"
+
+    SSH_KEY_FOLDER="$HOME/.ssh"
+    if [[ -f "$SSH_KEY_FOLDER/id_rsa.pub" ]]; then
+        detect_text "You have already RSA KEY"
+        echo "${YELLOW}Here is your KEY :${RESET}"
+        cat $SSH_KEY_FOLDER/id_rsa.pub
+    elif [[ -f "$SSH_KEY_FOLDER/id_ecdsa.pub" ]]; then
+        detect_text "You have already ECDSA KEY"
+        echo "${YELLOW}Here is your KEY :${RESET}"
+        cat $SSH_KEY_FOLDER/id_ecdsa.pub
+    elif [[ -f "$SSH_KEY_FOLDER/ed25519.pub" ]]; then
+        detect_text "You have already ED25519 KEY"
+        echo "${YELLOW}Here is your KEY :${RESET}"
+        cat $SSH_KEY_FOLDER/id_ed25519.pub
+    else
+        warning_text "You do not have key"
+    fi
+
+    footer "END OF DETECTION KEY"
+
+    press_any_key_to_continue
+}
+
+install_terminator() {
+    header "TERMINATOR INSTALL"
+
+    if hash terminator 2>/dev/null; then
+        detect_text "TERMINATOR is already installed"
+        press_any_key_to_continue
+    else
+        warning_text "TERMINATOR has not detected on your system"
+        echo "I will install it"
+        launching_command "sudo apt install terminator"
+        sudo apt install terminator
+    fi
+
+    footer "TERMINATOR INSTALLATION END"
+
+    press_any_key_to_continue
+}
+
+choice_IDE() {
+    if hash resize 2>/dev/null; then
+        eval $(resize)
+        CHOICE=$(whiptail --title "Installfest - The Hacking Project" --menu "By LinkPhoenix" --nocancel --notags --clear $LINES $(($COLUMNS - 75)) $(($LINES - 8)) \
+            "1)" "Visual Code" \
+            "2)" "Atom" \
+            "3)" "Sublime Text" 3>&2 2>&1 1>&3)
+    else
+        CHOICE=$(whiptail --title "Installfest - The Hacking Project" --menu "By LinkPhoenix" --nocancel --notags --clear 15 45 5 \
+            "1)" "Visual Code" \
+            "2)" "Atom" \
+            "3)" "Sublime Text" 3>&2 2>&1 1>&3)
+    fi
+
+    case $CHOICE in
+    "1)") Install_vscode ;;
+    "2)") Install_atom ;;
+    "3)") Install_sublime_text ;;
     esac
+}
+
+end_of_script() {
+    clear
+    exit
+}
+
+add_full_alias() {
+	header "INSTALLATION ALIAS"
+
+if [ -f ~/.zshrc ]; then
+	FILE_ALIAS=$HOME/.zshrc
+	detect_text "$FILE_ALIAS exist, I write alias in this file"
+
+	press_any_key_to_continue
+elif [ -f ~/.bashrc ]; then
+	FILE_ALIAS=$HOME/.bashrc
+	detect_text "$FILE_ALIAS exist, I write alias in this file"
+
+	press_any_key_to_continue
+fi
+
+ALIAS="
+# SYSTEM ALIAS
+alias cls='clear'									# Clear the terminal
+alias c='clear'										# Clear the terminal
+alias h='history'									# Print bash command history
+alias ll='ls -l' 									# List files in a list
+alias la='ls -al'									# List files in a list with hidden files
+# GIT ALIAS
+alias gitalias='alias | grep git'					# Show all alias for git (if you have OH MY ZSH you have lots of other aliases)
+alias gs='git status'								# Show the working tree status
+alias gcl='git clone'								# Clone a repository into a new directory
+alias gpush='git push'								# Update remote refs along with associated objects
+alias gpull='git pull'								# Fetch from and integrate with another repository or a local branch
+alias ga='git add'									# Add file contents to the index
+alias gcm='git commit -m'							# Record changes to the repository
+alias gco='git checkout'							# Switch branches or restore working tree files
+alias gbr='git branch'								# List, create, or delete branches
+alias glog='git log'								# Show commit logs
+alias greset='git reset'							# Reset current HEAD to the specified state
+# BUNDLE ALIAS
+alias bundlealias='alias | grep bundle'				# Show all alias for bundle
+alias bi='bundle install'							# Install the current environment to the system
+alias bl='bundle list'								# List all gem in GEMFILE and version
+alias bu='bundle update'							# Update the current environment (update gem)
+alias ba='bundle add'								# Command for add multiple gem in gemfile and launch a bundle update
+# HEROKU ALIAS
+alias herokualias='alias | grep heroku'				# Show all alias for Heroku
+alias hrdbs='heroku run rake db:seed'
+alias hrdbm='heroku run rails db:migrate'
+alias hc='heroku create'
+alias hrrc='heroku run rails console'
+alias hrbi='heroku run bundle install'
+alias hrupdate='heroku update'						# Update the Heroku CLI
+alias hrpsql='heroku psql'							# Open a psql shell to the database
+alias hrlogs='heroku logs'							# Display recent log output
+alias hrlog='heroku logs'							# Display recent log output
+# APT ALIAS
+alias aptalias='alias | grep apt'					# show all alias for apt
+alias update='sudo apt update -y'					# Update list of available packages
+alias upgrade='sudo apt upgrade -y'					# Upgrade the system by installing/upgrading packages
+alias full-upgrade='sudo apt full-upgrade -y'		# Upgrade the system by removing/installing/upgrading packages
+alias dist-upgrade='sudo apt dist-upgrade -y'		# Upgrade your distributtion system with sudo and ask yes
+alias autoremove='sudo apt autoremove'				# Remove automatically all unused packages
+# RAILS ALIAS
+alias railsalias='alias | grep rails'				# Show all alias for rails
+### RAILS CREATION
+alias rn='rails _5.2.3_ new'						# Create rails app with version 5.2.3 of RAILS
+alias rnd='rails _5.2.3_ new --database=postgresql'	# Create rails app with version 5.2.3 of RAILS and postgresql
+### RAILS OTHER
+alias rc='rails console'
+alias rd='rails destroy'
+alias rp='rails plugin'
+alias ru='rails runner'
+alias rs='rails server'
+alias rsd='rails server --debugger'
+alias rr='rails routes'
+### RAILS GENERATE
+alias rg='rails generate'
+alias rgmigration='rails generate migration'
+alias rgmodel='rails generate model'
+alias rgscaffold='rails generate scaffold'
+alias rgcontroller='rails generate controller'
+### RAILS DATABASE
+alias rdb='rails dbconsole'							# Database console in the database of your Rails APP
+alias rdbd='rails db:drop'
+alias rdbc='rails db:create'
+alias rdbs='rails db:seed'
+alias rdbm='rails db:migrate'
+alias rdbms='rails db:migrate status'
+alias rdbr='rails db:rollback'
+#VISUAL CODE ALIAS
+alias vsc='code .'									# Open the current folder in VS code
+#OTHERS ALIAS
+alias vi='vim'
+alias svim='sudo vim'								# Launch Vim with sudo
+alias edit='vim'"
+
+	launching_command "echo $ALIAS >> $FILE_ALIAS"
+	sleep 2
+
+	echo "$ALIAS" >> $FILE_ALIAS
+
+	detect_text "Here is the content of $FILE_ALIAS"
+
+	press_any_key_to_continue
+
+	cat $FILE_ALIAS
+
+	footer "ALIAS INSTALATION END"
+
+	press_any_key_to_continue
+}
+
+menu_whiptail() {
+    while [ 1 ]; do
+
+        if hash resize 2>/dev/null; then
+            eval $(resize)
+            CHOICE=$(whiptail --title "Installfest - The Hacking Project" --menu "By LinkPhoenix" --nocancel --notags --clear $(($LINES - 10)) $(($COLUMNS - 50)) $(($LINES - 20)) \
+                "1)" "Exit" \
+                "2)" "Depencies installation" \
+                "3)" "RVM installation" \
+                "4)" "Ruby version 2.5.1 installation" \
+                "5)" "Rails version 2.5.3 installation" \
+                "6)" "Check Ruby and Rails versions" \
+                "7)" "Heroku Installation" \
+                "8)" "Gem Installation" \
+                "9)" "PG's gem installation" \
+                "10)" "Install Oh My ZSH" \
+                "11)" "Choice my IDE" \
+                "12)" "Install VIM" \
+                "13)" "Install GIT" \
+                "14)" "Install Visual Code Extensions" \
+                "15)" "Install Terminator" \
+                "16)" "GIT : Config global setting" \
+                "17)" "Checking for existing SSH keys" \
+				"18)" "Add Alias > GIT/Bundle/Heroku..." 3>&2 2>&1 1>&3)
+        else
+            CHOICE=$(whiptail --title "Installfest - The Hacking Project" --menu "By LinkPhoenix" --nocancel --notags --clear 25 78 16 \
+                "1)" "Exit" \
+                "2)" "Depencies installation" \
+                "3)" "RVM installation" \
+                "4)" "Ruby version 2.5.1 installation" \
+                "5)" "Rails version 2.5.3 installation" \
+                "6)" "Check Ruby and Rails versions" \
+                "7)" "Heroku Installation" \
+                "8)" "Gem Installation" \
+                "9)" "PG's gem installation" \
+                "10)" "Install Oh My ZSH" \
+                "11)" "Choice my IDE" \
+                "12)" "Install VIM" \
+                "13)" "Install GIT" \
+                "14)" "Install Visual Code Extensions" \
+                "15)" "Install Terminator" \
+                "16)" "GIT : Config global setting" \
+                "17)" "Checking for existing SSH keys" \
+				"18)" "Add Alias > GIT/Bundle/Heroku..." 3>&2 2>&1 1>&3)
+        fi
+        case $CHOICE in
+        "1)") end_of_script ;;
+        "2)") install_dependencies ;;
+        "3)") install_RVM ;;
+        "4)") install_Ruby ;;
+        "5)") install_Rails ;;
+        "6)") check_ror_version ;;
+        "7)") install_Heroku ;;
+        "8)") install_all_gem ;;
+        "9)") install_gem_pg ;;
+        "10)") install_oh_my_zsh ;;
+        "11)") choice_IDE ;;
+        "12)") install_vim ;;
+        "13)") install_git ;;
+        "14)") extension_vscode ;;
+        "15)") install_terminator ;;
+        "16)") config_git ;;
+        "17)") checking_for_existing_ssh_keys ;;
+		"18)") add_full_alias ;;
+        esac
+    done
+    exit
 }
 
 setup_color
