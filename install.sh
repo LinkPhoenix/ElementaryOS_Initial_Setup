@@ -1196,10 +1196,30 @@ main() {
 		((i++))
 	done
 
+    info_script="
+_______________________________________________________________________________________________
+
+Script information
+
+Author              LinkPhoenix
+Github              https://github.com/LinkPhoenix
+URL Repository      https://github.com/LinkPhoenix/ElementaryOS_Initial_Setup
+
+OS                  Elementary OS
+Version             5.0
+Code name           Juno
+"
+
+    i=0
+    while [ $i -lt ${#info_script} ]; do
+        sleep 0.001
+        echo -ne "${YELLOW}${BOLD}${info_script:$i:1}${RESET}" | tr --delete "%"
+        ((i++))
+    done
+
 	press_any_key_to_continue
 
 	menu_whiptail
-
 }
 
 main
