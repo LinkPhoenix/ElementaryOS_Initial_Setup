@@ -1132,6 +1132,22 @@ eos_launcher_add_spotify_adblock() {
 	footer "SPOTIFY ADBLOCK IS NOW IN THE LAUNCHER"
 }
 
+eos_menu() {
+EOS_MENU=$(whiptail --title "Elementary OS Settings" --checklist \
+"Quel est votre distribution linux ?" 20 78 4 \
+"debian 7" "Wheezy" OFF \
+"ubuntu 14.04 LTS" "Trusty Tahr" ON \
+"Fedora 21" "Twenty One" OFF \
+"Elementary OS" "Luna" OFF 3>&1 1>&2 2>&3)
+ 
+exitstatus=$?
+if [ $exitstatus = 0 ]; then
+    echo "Vous avez choisi la distribution :" $DISTROS
+else
+    echo "Vous avez annulé"
+fi
+}
+
 menu_whiptail() {
 	while [ 1 ]; do
 
@@ -1139,23 +1155,23 @@ menu_whiptail() {
 			eval $(resize)
 			CHOICE=$(whiptail --title "Elementary OS - Initial Setup" --menu "By LinkPhoenix" --nocancel --notags --clear $(($LINES - 10)) $(($COLUMNS - 50)) $(($LINES - 20)) \
 				"1)" "Exit" \
-				"2)" "Install Oh My ZSH" \
-				"3)" "Choice my IDE" \
-				"4)" "Install GIT" \
-				"5)" "Install Terminator" \
-				"6)" "GIT : Config global setting" \
-				"7)" "Checking for existing SSH keys" \
-				"8)" "Add Alias > GIT/Bundle/Heroku..." 3>&2 2>&1 1>&3)
+                "2)" "Install importante dependencies" \
+                "3)" "Applications" \
+                "2)" "Git" \
+                "2)" "Terminal" \
+				"3)" "IDE" \
+                "5)" "Elementary" \
+				"8)" "Alias" 3>&2 2>&1 1>&3)
 		else
-			CHOICE=$(whiptail --title "Installfest - The Hacking Project" --menu "By LinkPhoenix" --nocancel --notags --clear 25 78 16 \
+			CHOICE=$(whiptail --title "Elementary OS - Initial Setup" --menu "By LinkPhoenix" --nocancel --notags --clear 25 78 16 \
 				"1)" "Exit" \
-				"2)" "Install Oh My ZSH" \
-				"3)" "Choice my IDE" \
-				"4)" "Install GIT" \
-				"5)" "Install Terminator" \
-				"6)" "GIT : Config global setting" \
-				"7)" "Checking for existing SSH keys" \
-				"8)" "Add Alias > GIT/Bundle/Heroku..." 3>&2 2>&1 1>&3)
+                "2)" "Install importante dependencies" \
+                "3)" "Applications" \
+                "2)" "Git" \
+                "2)" "Terminal" \
+				"3)" "IDE" \
+                "5)" "Elementary" \
+				"8)" "Alias" 3>&2 2>&1 1>&3)
 
 		fi
 		case $CHOICE in
