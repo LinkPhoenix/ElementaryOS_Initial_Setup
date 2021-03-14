@@ -299,7 +299,7 @@ if [ ! -d "$HOME/.config/terminator" ]; then
     echo '  title_hide_sizetext = True' >>$HOME/.config/terminator/config
     echo '  window_state = fullscreen' >>$HOME/.config/terminator/config
     echo '[keybindings]' >>$HOME/.config/terminator/config
-    echo '[layouts]' >>$HOME/config/terminator/.config
+    echo '[layouts]' >>$HOME/.config/terminator/config
     echo '  [[default]]' >>$HOME/.config/terminator/config
     echo '    [[[child1]]]' >>$HOME/.config/terminator/config
     echo '      parent = window0' >>$HOME/.config/terminator/config
