@@ -293,32 +293,32 @@ header "TERMINATOR CONFIG"
 
 if [ ! -d "$HOME/.config/terminator" ]; then
     mkdir $HOME/.config/terminator
-    echo '  [global_config]' >>$HOME/config/terminator/config
-    echo '  borderless = True' >>$HOME/config/terminator/config
-    echo '  enabled_plugins = InactivityWatch, LaunchpadCodeURLHandler, APTURLHandler, LaunchpadBugURLHandler' >>$HOME/config/terminator/config
-    echo '  title_hide_sizetext = True' >>$HOME/config/terminator/config
-    echo '  window_state = fullscreen' >>$HOME/config/terminator/config
-    echo '[keybindings]' >>$HOME/config/terminator/config
-    echo '[layouts]' >>$HOME/config/terminator/config
-    echo '  [[default]]' >>$HOME/config/terminator/config
-    echo '    [[[child1]]]' >>$HOME/config/terminator/config
-    echo '      parent = window0' >>$HOME/config/terminator/config
-    echo '      type = Terminal' >>$HOME/config/terminator/config
-    echo '    [[[window0]]]' >>$HOME/config/terminator/config
-    echo '      parent = ""' >>$HOME/config/terminator/config
-    echo '      type = Window' >>$HOME/config/terminator/config
-    echo '[plugins]' >>$HOME/config/terminator/config
-    echo '[profiles]' >>$HOME/config/terminator/config
-    echo '  [[default]]' >>$HOME/config/terminator/config
-    echo '    audible_bell = True' >>$HOME/config/terminator/config
-    echo '    background_color = " #2e3436"' >>$HOME/config/terminator/config
-    echo '    background_darkness = 0.95' >>$HOME/config/terminator/config
-    echo '    background_type = transparent' >>$HOME/config/terminator/config
-    echo '    cursor_color = " #aaaaaa"' >>$HOME/config/terminator/config
-    echo '    font = Roboto Mono 14' >>$HOME/config/terminator/config
-    echo '    login_shell = True' >>$HOME/config/terminator/config
-    echo '    show_titlebar = False' >>$HOME/config/terminator/config
-    echo '    use_system_font = False' >>$HOME/config/terminator/config
+    echo '  [global_config]' >>$HOME/.config/terminator/config
+    echo '  borderless = True' >>$HOME/.config/terminator/config
+    echo '  enabled_plugins = InactivityWatch, LaunchpadCodeURLHandler, APTURLHandler, LaunchpadBugURLHandler' >>$HOME/.config/terminator/config
+    echo '  title_hide_sizetext = True' >>$HOME/.config/terminator/config
+    echo '  window_state = fullscreen' >>$HOME/.config/terminator/config
+    echo '[keybindings]' >>$HOME/.config/terminator/config
+    echo '[layouts]' >>$HOME/config/terminator/.config
+    echo '  [[default]]' >>$HOME/.config/terminator/config
+    echo '    [[[child1]]]' >>$HOME/.config/terminator/config
+    echo '      parent = window0' >>$HOME/.config/terminator/config
+    echo '      type = Terminal' >>$HOME/.config/terminator/config
+    echo '    [[[window0]]]' >>$HOME/.config/terminator/config
+    echo '      parent = ""' >>$HOME/.config/terminator/config
+    echo '      type = Window' >>$HOME/.config/terminator/config
+    echo '[plugins]' >>$HOME/.config/terminator/config
+    echo '[profiles]' >>$HOME/.config/terminator/config
+    echo '  [[default]]' >>$HOME/.config/terminator/config
+    echo '    audible_bell = True' >>$HOME/.config/terminator/config
+    echo '    background_color = " #2e3436"' >>$HOME/.config/terminator/config
+    echo '    background_darkness = 0.95' >>$HOME/.config/terminator/config
+    echo '    background_type = transparent' >>$HOME/.config/terminator/config
+    echo '    cursor_color = " #aaaaaa"' >>$HOME/.config/terminator/config
+    echo '    font = Roboto Mono 14' >>$HOME/.config/terminator/config
+    echo '    login_shell = True' >>$HOME/.config/terminator/config
+    echo '    show_titlebar = False' >>$HOME/.config/terminator/config
+    echo '    use_system_font = False' >>$HOME/.config/terminator/config
 fi
 
 #BLUMAN
